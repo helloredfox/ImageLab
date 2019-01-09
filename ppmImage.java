@@ -1,5 +1,6 @@
 public class ppmImage {
 
+// does this work
 
 	String fileID;
 	int width;
