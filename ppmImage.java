@@ -7,6 +7,6 @@ public class ppmImage {
 	int height;
 	int maxColorValue;
 
-	//structure to hold a list of pixels
+	//structure to hold a list of pixels - possibly an arrayList
 
 }
