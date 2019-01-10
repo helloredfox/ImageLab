@@ -1,3 +1,6 @@
+
+import java.util.ArrayList;
+
 public class ppmImage {
 
 // does this work
@@ -8,5 +11,5 @@ public class ppmImage {
 	int maxColorValue;
 
 	//structure to hold a list of pixels - possibly an arrayList
-
+	ArrayList<Pixel> pixels = new ArrayList<>();
 }
