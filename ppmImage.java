@@ -1,10 +1,24 @@
-
 import java.util.ArrayList;
 
 public class ppmImage {
 
-// does this work
+	//constructor
+	ppmImage() {}
 
+	public void setUpImage(String fileID, int width, int height, int maxColorValue) {
+		this.fileID = fileID;
+		this.width = width;
+		this.height = height;
+		this.maxColorValue = maxColorValue;
+	}
+
+	// Methods
+	public void addPixel (Pixel pixel)
+	{
+		this.pixels.add(pixel);
+	}
+
+	// Data Members
 	String fileID;
 	int width;
 	int height;
