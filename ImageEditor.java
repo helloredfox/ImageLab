@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.sql.Array;
+import java.util.ArrayList;
 
 public class ImageEditor {
 
@@ -42,10 +44,10 @@ public class ImageEditor {
         }
         else if (methodToInvoke.equals("emboss"))
         {
-            emboss(theImage);
+           ppmImage finalImage = emboss(theImage);
             try
             {
-                ppmWriter.writeOutImage(theImage, args[1]);
+                ppmWriter.writeOutImage(finalImage, args[1]);
             }
             catch(IOException e)
             {
@@ -80,84 +82,7 @@ public class ImageEditor {
 
         }
     }
-    public static void emboss(ppmImage image)
+    public static ppmImage emboss(ppmImage image)
     {
-        // we have an Image set up with height = rows, and width  = columns. Iterate through like that
-
-        /*
-        h/r = 3 w/c = 3
-
-        [p p p] [p p p] [p p p]
-
-
-
-
-         */
-        // loop through the new "image" table
-        int numRows = image.height * image.width;
-        int numColumns = image.width;
-        int rowWidth = image.width;
-
-        for(int i = 0; i < numRows; i+= rowWidth)
-        {
-            for(int j = 0; j < numColumns; j++)
-            {
-
-                int v = 0;
-
-                //check i-1 and j-1 to see if either == 0
-                if(i-rowWidth < 0 || j-1 < 0)
-                {
-                   //set the pixels RGB values to 128
-                    v = 128;
-                }
-                else
-                {
-                    int redDiff = image.pixels.get(i + j).getRedValue() - image.pixels.get((i - rowWidth) + (j - 1)).getRedValue();
-                    int greenDiff = image.pixels.get(i + j).getGreenValue() - image.pixels.get((i - rowWidth) + (j - 1)).getGreenValue();
-                    int blueDiff = image.pixels.get(i + j).getBlueValue() - image.pixels.get((i - rowWidth) + (j - 1)).getBlueValue();
-
-                    //find the max difference
-                    int intermediateDiff = 0;
-                    int maxDiff = 0;
-                    if(redDiff > greenDiff)
-                    {
-                        intermediateDiff = redDiff;
-                    }
-                    else
-                    {
-                        intermediateDiff = greenDiff;
-                    }
-
-                    if(intermediateDiff > blueDiff)
-                    {
-                        maxDiff = intermediateDiff;
-                    }
-                    else
-                    {
-                        maxDiff = blueDiff;
-                    }
-
-                    v = 128 + maxDiff;
-
-                    if(v < 0)
-                    {
-                        v = 0;
-                    }
-                    if(v > 255)
-                    {
-                        v = 255;
-                    }
-
-
-                }
-
-                //set pixel's RGB values = v
-                image.pixels.get(i+j).setRedValue(v);
-                image.pixels.get(i+j).setGreenValue(v);
-                image.pixels.get(i+j).setBlueValue(v);
-
-            }
-        }
     }
 }
