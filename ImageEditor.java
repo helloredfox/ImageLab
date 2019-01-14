@@ -94,7 +94,7 @@ public class ImageEditor {
 
          */
         // loop through the new "image" table
-        int numRows = image.height;
+        int numRows = image.height * image.width;
         int numColumns = image.width;
         int rowWidth = image.width;
 
@@ -106,16 +106,16 @@ public class ImageEditor {
                 int v = 0;
 
                 //check i-1 and j-1 to see if either == 0
-                if(i-1 < 0 || j-1 < 0)
+                if(i-rowWidth < 0 || j-1 < 0)
                 {
                    //set the pixels RGB values to 128
                     v = 128;
                 }
                 else
                 {
-                    int redDiff = image.pixels.get(i + j).getRedValue() - image.pixels.get((i - 1) + (j - 1)).getRedValue();
-                    int greenDiff = image.pixels.get(i + j).getGreenValue() - image.pixels.get((i - 1) + (j - 1)).getGreenValue();
-                    int blueDiff = image.pixels.get(i + j).getBlueValue() - image.pixels.get((i - 1) + (j - 1)).getBlueValue();
+                    int redDiff = image.pixels.get(i + j).getRedValue() - image.pixels.get((i - rowWidth) + (j - 1)).getRedValue();
+                    int greenDiff = image.pixels.get(i + j).getGreenValue() - image.pixels.get((i - rowWidth) + (j - 1)).getGreenValue();
+                    int blueDiff = image.pixels.get(i + j).getBlueValue() - image.pixels.get((i - rowWidth) + (j - 1)).getBlueValue();
 
                     //find the max difference
                     int intermediateDiff = 0;
