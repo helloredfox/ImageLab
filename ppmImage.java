@@ -18,6 +18,21 @@ public class ppmImage {
 		this.pixels.add(pixel);
 	}
 
+	public String toString()
+	{
+		String objectAsText = "";
+
+		objectAsText += fileID + "\n" + Integer.toString(width)+ "\t" + Integer.toString(height)+ "\n" + Integer.toString(maxColorValue)+ "\n";
+		//add all the pixels
+		for(Pixel p : this.pixels)
+		{
+			objectAsText += Integer.toString(p.getRedValue()) + "\n";
+			objectAsText += Integer.toString(p.getGreenValue())+ "\n";
+			objectAsText += Integer.toString(p.getBlueValue())+ "\n";
+		}
+
+		return objectAsText;
+	}
 	// Data Members
 	String fileID;
 	int width;
