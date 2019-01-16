@@ -34,8 +34,6 @@ public class ppmReader {
             //adds all the values of the parameters as datamembers on the object it is called on
             theImage.setUpImage(fileID, width, height, maxColorValue);
 
-            //2d pixel array
-            Pixel[][] pixels = new Pixel[theImage.height][theImage.width];
 
 
             //read all the pixels
@@ -71,17 +69,27 @@ public class ppmReader {
             error.printStackTrace();
         }
 
-        return theImage;
-
 
         //read in *width pixels into an array
         //change the row# and read in *width pixels again until the row# =  max rows
 
-        int rowNum = 0;
-        for(int i = 0; i < theImage.width; i++)
+        //2d pixel array
+        Pixel[][] pixels = new Pixel[theImage.height][theImage.width];
+
+
+        int index = 0;
+        for(int j = 0; j < theImage.height; j++)
         {
-            pixels[rowNum][i] = theImage.pixels
+            for(int i = 0; i < theImage.width; i++)
+            {
+                pixels[j][i] = theImage.pixels.get(index);
+                index++;
+            }
+
         }
+        theImage.set2dArray(pixels, theImage.height, theImage.width);
+
+        return theImage;
     }
 }
 

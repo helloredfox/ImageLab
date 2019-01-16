@@ -7,30 +7,30 @@ public class ppmWriter {
 public static void writeOutImage(ppmImage image, String filePath) throws IOException
         {
 
-            /*
-
-            public void whenWriteStringUsingBufferedWritter_thenCorrect()
-  throws IOException {
-    String str = "Hello";
-    BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-    writer.write(str);
-
-    writer.close();
-}
-
-
-             */
-
             // get the string you want to write
             BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
 
-            //write the fileID
+
             String textToWrite = image.toString();
 
             writer.write(textToWrite);
             writer.close();
           //  writer.write(desiredString)
 
+        }
+
+
+        public static void writeOutArrayImage(ppmImage image, String filePath) throws IOException
+        {
+            // get the string you want to write
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+
+
+            String textToWrite = image.pixelArrayToString();
+
+            writer.write(textToWrite);
+            writer.close();
+            //  writer.write(desiredString)
         }
 
 }
