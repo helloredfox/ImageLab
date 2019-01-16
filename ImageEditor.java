@@ -124,7 +124,7 @@ return modifiedImage;
         for(Pixel pixel : image.pixels)
         {
 
-            pixel.setRedValue(255-pixel.getGreenValue());
+            pixel.setRedValue(255-pixel.getRedValue());
             pixel.setGreenValue(255-pixel.getGreenValue());
             pixel.setBlueValue(255-pixel.getBlueValue());
 
@@ -269,9 +269,9 @@ return modifiedImage;
                     int totalGreenCount = 0;
                     int totalBlueCount = 0;
 
-                    if(blur > (image.width-j-1))
+                    if(blur > (image.width-j))
                     {
-                        numPixelsToBlur = image.width-j-1;
+                        numPixelsToBlur = image.width-j;
                     }
                     //blur the numPixelsToBlur amount, starting with the current pixel
                     for(int k = 0; k < numPixelsToBlur; k++)
