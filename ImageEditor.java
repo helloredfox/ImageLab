@@ -55,6 +55,37 @@ public class ImageEditor {
                 System.out.println("IOException my man");
             }
         }
+        else if(methodToInvoke.equals("motionblur"))
+        {
+
+            //get the third commandline argument
+            if(args.length == 4)
+            {
+                int blurAmount = Integer.parseInt(args[3]);
+                ppmImage finalImage = blur(theImage, blurAmount);
+
+                try
+                {
+                    ppmWriter.writeOutArrayImage(finalImage, args[1]);
+                }
+                catch(IOException e)
+                {
+                    System.out.println("IOException my man");
+                }
+            }
+            else
+            {
+                //print the usage statement
+                System.out.println("USAGE: java ImageEditor in-file out-file (grayscale|invert|emboss|motionblur motion-blur-length)");
+            }
+
+
+        }
+        else
+        {
+           // print usage statement
+            System.out.println("USAGE: java ImageEditor in-file out-file (grayscale|invert|emboss|motionblur motion-blur-length)");
+        }
 
     }
 
@@ -158,51 +189,12 @@ return modifiedImage;
 
     public static ppmImage emboss(ppmImage theImage)
     {
-//        //work from 2d array
         ppmImage modifiedImage = new ppmImage();
         modifiedImage.assign(theImage);
-//
-//        int length = theImage.height * theImage.width;
-//        int v = 0;
-//        for(int i = 0; i < length; i++)
-//        {
-//            if(i > theImage.width && i % theImage.width != 0)
-//            {
-//
-//                int redDiff = theImage.pixels.get(i).getRedValue() - theImage.pixels.get(i - (theImage.width + 1)).getRedValue();
-//                int greenDiff = theImage.pixels.get(i).getGreenValue() - theImage.pixels.get(i - (theImage.width + 1)).getGreenValue();
-//                int blueDiff = theImage.pixels.get(i).getBlueValue() - theImage.pixels.get(i - (theImage.width + 1)).getBlueValue();
-//
-//                int maxDiff = getMaxDiff(redDiff, greenDiff, blueDiff);
-//
-//                v = 128 + maxDiff;
-//
-//                if(v < 0)
-//                {
-//                    v = 0;
-//                }
-//                if(v > 255)
-//                {
-//                    v = 255;
-//                }
-//
-//            }
-//            else
-//            {
-//                v = 128;
-//            }
-//
-//            modifiedImage.pixels.get(i).setRedValue(v);
-//            modifiedImage.pixels.get(i).setGreenValue(v);
-//            modifiedImage.pixels.get(i).setBlueValue(v);
-//        }
-//
-//        return modifiedImage;
-
-
 
         int v = 0;
 
+        //starting from the bottom right pixel(this is what I was missing)
         for(int i = (theImage.height-1); i >= 0; i--)
         {
             for(int j = (theImage.width-1); j >= 0; j--)
@@ -242,4 +234,77 @@ return modifiedImage;
         return modifiedImage;
 
     }
+
+
+    public static ppmImage blur(ppmImage image, int blur)
+    {
+
+        //make a copy
+        ppmImage modifiedImage = new ppmImage();
+
+        modifiedImage.assign(image);
+
+
+        //make sure to check if blur = 1 and blur = 0;  blur = 1 is a test case!!
+        //special cases
+        if(blur == 0)
+        {
+            //do nothing
+        }
+        else if(blur == 1)
+        {
+
+        }
+        else if (blur > 1)
+        {
+            //iterate through the pixels in the 2d array
+            for(int i = 0; i < image.height; i++)
+            {
+                for(int j = 0; j < image.width; j++)
+                {
+                    //for each pixel, do the blur
+                    int numPixelsToBlur = blur;
+
+                    int totalRedCount = 0;
+                    int totalGreenCount = 0;
+                    int totalBlueCount = 0;
+
+                    if(blur > (image.width-j-1))
+                    {
+                        numPixelsToBlur = image.width-j-1;
+                    }
+                    //blur the numPixelsToBlur amount, starting with the current pixel
+                    for(int k = 0; k < numPixelsToBlur; k++)
+                    {
+                        totalRedCount += image.pixels2dArray[i][j+k].getRedValue();
+                        totalGreenCount += image.pixels2dArray[i][j+k].getGreenValue();
+                        totalBlueCount += image.pixels2dArray[i][j+k].getBlueValue();
+                    }
+                    //find averages
+                    if(numPixelsToBlur != 0)
+                    {
+                        int redAvg = totalRedCount/numPixelsToBlur;
+                        int blueAvg = totalBlueCount/numPixelsToBlur;
+                        int greenAvg = totalGreenCount/numPixelsToBlur;
+
+                        //assign average to the current pixel
+                        modifiedImage.pixels2dArray[i][j].setRedValue(redAvg);
+                        modifiedImage.pixels2dArray[i][j].setGreenValue(greenAvg);
+                        modifiedImage.pixels2dArray[i][j].setBlueValue(blueAvg);
+                    }
+                    else
+                    {
+                        //do nothing
+                    }
+
+
+                }
+            }
+
+        }
+
+        return modifiedImage;
+
+    }
+
 }
